@@ -1,1 +1,0 @@
-# benkorosparti.github.io
