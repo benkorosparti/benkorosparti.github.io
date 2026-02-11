@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freecash Clone | Almedia Case Study</title>
+    
+    <script>
+      !function(){var i="cioanalytics", analytics=(window[i]=window[i]||[]);if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute('data-global-customerio-analytics-key', i);t.src="https://cdp-eu.customer.io/v1/analytics-js/snippet/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._writeKey=key;analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.15.3";
+        analytics.load("c522b3693344bea699da");
+        analytics.page();
+      }}();
+    </script>
+
+    <style>
+        :root {
+            --bg-dark: #0f111a;
+            --card-bg: #1a1d29;
+            --primary-green: #00e676;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --accent-purple: #6366f1;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Mobile Viewport */
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        /* Top Bar */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .balance-pill {
+            background: #24283b;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        /* Payout Progress */
+        .payout-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-container {
+            background: #24283b;
+            height: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: var(--primary-green);
+            width: 26%; /* Matches screenshot 5.35/20.00 */
+            height: 100%;
+            box-shadow: 0 0 10px var(--primary-green);
+        }
+
+        /* Offer Cards */
+        .offer-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+            transition: transform 0.2s;
+        }
+
+        .offer-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #4c1d95, #1e3a8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .offer-details {
+            padding: 20px;
+        }
+
+        .offer-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .earn-btn {
+            background: var(--primary-green);
+            color: #000;
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Bottom Nav */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #334155;
+        }
+
+        .nav-item {
+            color: var(--text-dim);
+            font-size: 11px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header class="header">
+        <div style="background: #334155; width: 35px; height: 35px; border-radius: 50%;"></div>
+        <div class="balance-pill">€ 5.35</div>
+        <div style="font-size: 20px;">🔔</div>
+    </header>
+
+    <section class="payout-section">
+        <p style="color: var(--text-dim); margin-bottom: 5px;">Next payout for 20.00€</p>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <small style="color: var(--text-dim);">5.35€ / 20.00€</small>
+    </section>
+
+    <h2 style="margin-bottom: 20px;">3 Offers available</h2>
+
+    <div class="offer-card">
+        <div class="offer-image">
+            <h3 style="color: white; font-style: italic; font-size: 24px;">PUZZLES & CHAOS</h3>
+            <span class="offer-badge">⭐ 4.7</span>
+        </div>
+        <div class="offer-details">
+            <div class="offer-title">
+                <span>Puzzles & Chaos: Frozen...</span>
+                <span style="color: var(--primary-green);">€ 496.09</span>
+            </div>
+            <button class="earn-btn" onclick="cio.track('offer_click', {offer_name: 'Puzzles & Chaos'})">Earn 496.09€</button>
+        </div>
+    </div>
+
+    <div class="offer-card">
+        <div class="offer-image" style="background: linear-gradient(45deg, #1e40af, #0ea5e9);">
+            <h3 style="color: white; font-size: 24px;">SOLITAIRE</h3>
+            <span class="offer-badge">⭐ 4.9</span>
+        </div>
+        <div class="offer-details">
+            <div class="offer-title">
+                <span>Disney Solitaire</span>
+                <span style="color: var(--primary-green);">€ 12.50</span>
+            </div>
+            <button class="earn-btn" onclick="cio.track('offer_click', {offer_name: 'Solitaire'})">Earn 12.50€</button>
+        </div>
+    </div>
+</div>
+
+<nav class="nav-bar">
+    <a href="#" class="nav-item active"><div>🔍</div>Earn</a>
+    <a href="#" class="nav-item"><div>💰</div>Cashback</a>
+    <a href="#" class="nav-item"><div>📋</div>My Offers</a>
+    <a href="#" class="nav-item"><div>💵</div>Cashout</a>
+</nav>
+
+</body>
+</html>
