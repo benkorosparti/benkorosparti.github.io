@@ -5,26 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freecash Clone | Almedia Case Study</title>
     
-    <script>
-      !function(){var i="cioanalytics", analytics=(window[i]=window[i]||[]);if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute('data-global-customerio-analytics-key', i);t.src="https://cdp-eu.customer.io/v1/analytics-js/snippet/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._writeKey=key;analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.15.3";
-        
-                                                                                                                                                                                                       
- analytics.load("c522b3693344bea699da", 
-    {
-        "integrations": {
-            "Customer.io In-App Plugin": {
-                siteId: "8e67e277950f046c58e6"
-            }
-        }
-    });
-    analytics.page();                                                                                                                                                                                                      
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-      }}();
-    </script>
-
-    <style>
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+            <script>
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "e32b17a2-22cb-4107-87cb-54500a1f5421",
+                });
+              });
+            </script>
+        <style>
+            
         :root {
             --bg-dark: #0f111a;
             --card-bg: #1a1d29;
