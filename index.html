@@ -7,14 +7,14 @@
     
     <!-- OneSignal SDK -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(async function(OneSignal) {
+        <script>
+          window.OneSignalDeferred = window.OneSignalDeferred || [];
+          OneSignalDeferred.push(async function(OneSignal) {
             await OneSignal.init({
-                appId: "e32b17a2-22cb-4107-87cb-54500a1f5421",
+              appId: "e32b17a2-22cb-4107-87cb-54500a1f5421",
             });
-        });
-    </script>
+          });
+        </script>
     
     <style>
         :root {
@@ -355,102 +355,215 @@
     </nav>
     
     <script>
-        // Utility function to update status log
-        function updateStatus(message, isError = false) {
-            const statusLog = document.getElementById('statusLog');
-            const timestamp = new Date().toLocaleTimeString();
-            statusLog.innerHTML = `[${timestamp}] ${message}`;
-            statusLog.style.color = isError ? '#ef4444' : 'var(--primary-green)';
-            console.log(`[${timestamp}] ${message}`);
+    // Utility function to update status log
+    function updateStatus(message, isError = false) {
+        const statusLog = document.getElementById('statusLog');
+        const timestamp = new Date().toLocaleTimeString();
+        statusLog.innerHTML = `[${timestamp}] ${message}`;
+        statusLog.style.color = isError ? '#ef4444' : 'var(--primary-green)';
+        console.log(`[${timestamp}] ${message}`);
+    }
+    
+    // Level 2 Completion Handler
+    async function completeLevel2() {
+        try {
+            updateStatus('⏳ Processing Level 2 completion...');
+            
+            // Wait for OneSignal to be ready
+            await OneSignal.login('user_' + Date.now()); // Creates unique external user ID
+            
+            // Set user tags for workflow trigger
+            await OneSignal.User.addTags({
+                "level_2_completed": "true",
+                "level_3_started": "false",
+                "completion_timestamp": Date.now().toString()
+            });
+            
+            // Track the event
+            console.log('✅ OneSignal Tags Set:', {
+                level_2_completed: "true",
+                level_3_started: "false"
+            });
+            
+            updateStatus('✅ Level 2 Completed! Push notification scheduled for 2 minutes.');
+            
+            // Visual feedback
+            setTimeout(() => {
+                updateStatus('⏰ Waiting for 2-minute delay... (Push will arrive soon)');
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Error in completeLevel2:', error);
+            updateStatus('❌ Error: ' + error.message, true);
         }
-        
-        // Level 2 Completion Handler
-        async function completeLevel2() {
-            try {
-                updateStatus('⏳ Processing Level 2 completion...');
-                
-                // Wait for OneSignal to be ready
-                await OneSignalDeferred[0](OneSignal);
-                
-                // Set user tags for workflow trigger
-                await OneSignal.User.addTag("last_level_completed", "2");
-                await OneSignal.User.addTag("level_3_started", "false");
-                
-                // Track the event
-                console.log('✅ OneSignal Tags Set:', {
-                    last_level_completed: "2",
-                    level_3_started: "false"
-                });
-                
-                updateStatus('✅ Level 2 Completed! Push notification scheduled for 2 minutes.');
-                
-                // Visual feedback
-                setTimeout(() => {
-                    updateStatus('⏰ Waiting for 2-minute delay... (Push will arrive soon)');
-                }, 2000);
-                
-            } catch (error) {
-                console.error('Error in completeLevel2:', error);
-                updateStatus('❌ Error: ' + error.message, true);
-            }
+    }
+    
+    // Level 3 Start Handler (Cancellation)
+    async function startLevel3() {
+        try {
+            updateStatus('⏳ Processing Level 3 start...');
+            
+            // Update tag to cancel the push
+            await OneSignal.User.addTag("level_3_started", "true");
+            
+            console.log('🚫 Level 3 Started - Push Cancelled');
+            console.log('✅ OneSignal Tag Updated:', {
+                level_3_started: "true"
+            });
+            
+            updateStatus('🚫 Level 3 Started! Re-engagement push has been CANCELLED.');
+            
+        } catch (error) {
+            console.error('Error in startLevel3:', error);
+            updateStatus('❌ Error: ' + error.message, true);
         }
-        
-        // Level 3 Start Handler (Cancellation)
-        async function startLevel3() {
-            try {
-                updateStatus('⏳ Processing Level 3 start...');
-                
-                // Wait for OneSignal to be ready
-                await OneSignalDeferred[0](OneSignal);
-                
-                // Update tag to cancel the push
-                await OneSignal.User.addTag("level_3_started", "true");
-                
-                console.log('🚫 Level 3 Started - Push Cancelled');
-                console.log('✅ OneSignal Tag Updated:', {
-                    level_3_started: "true"
-                });
-                
-                updateStatus('🚫 Level 3 Started! Re-engagement push has been CANCELLED.');
-                
-            } catch (error) {
-                console.error('Error in startLevel3:', error);
-                updateStatus('❌ Error: ' + error.message, true);
-            }
+    }
+    
+    // Reset Simulation
+    async function resetSimulation() {
+        try {
+            updateStatus('⏳ Resetting simulation...');
+            
+            // Reset all tags
+            await OneSignal.User.removeTags(["level_2_completed", "level_3_started", "completion_timestamp"]);
+            
+            console.log('🔄 Simulation Reset - All tags cleared');
+            
+            updateStatus('🔄 Simulation reset! Ready for new test.');
+            
+        } catch (error) {
+            console.error('Error in resetSimulation:', error);
+            updateStatus('❌ Error: ' + error.message, true);
         }
-        
-        // Reset Simulation
-        async function resetSimulation() {
-            try {
-                updateStatus('⏳ Resetting simulation...');
-                
-                // Wait for OneSignal to be ready
-                await OneSignalDeferred[0](OneSignal);
-                
-                // Reset all tags
-                await OneSignal.User.removeTag("last_level_completed");
-                await OneSignal.User.removeTag("level_3_started");
-                
-                console.log('🔄 Simulation Reset - All tags cleared');
-                
-                updateStatus('🔄 Simulation reset! Ready for new test.');
-                
-            } catch (error) {
-                console.error('Error in resetSimulation:', error);
-                updateStatus('❌ Error: ' + error.message, true);
-            }
-        }
-        
-        // Track offer clicks (existing functionality)
-        function trackOfferClick(offerName) {
-            console.log('📊 Offer clicked:', offerName);
-            updateStatus(`📊 Tracked: ${offerName} offer clicked`);
-        }
-        
-        // Initialize status on page load
-        window.addEventListener('load', () => {
-            updateStatus('✅ Page loaded. OneSignal initialized. Ready to test!');
-        });
-    </script>
+    }
+    
+    // Track offer clicks (existing functionality)
+    function trackOfferClick(offerName) {
+        console.log('📊 Offer clicked:', offerName);
+        updateStatus(`📊 Tracked: ${offerName} offer clicked`);
+    }
+    
+    // Initialize status on page load
+    window.addEventListener('load', () => {
+        updateStatus('✅ Page loaded. OneSignal ready. Allow notifications when prompted!');
+    });
+</script>
+
+**Key Changes:**
+- Changed tag name from `last_level_completed` to `level_2_completed` (clearer)
+- Added `OneSignal.login()` to create a proper user session
+- Added timestamp tracking for better debugging
+
+---
+
+## Part 4: OneSignal Journey Setup (DETAILED)
+
+### Step 7: Navigate to Journeys
+1. In OneSignal dashboard, click **"Messages"** in left sidebar
+2. Click **"Journeys"** tab at the top
+3. Click **"New Journey"** button (top right, blue button)
+
+### Step 8: Create New Journey
+1. **Journey Name**: `Level 2 Re-engagement`
+2. **Description**: `Send push after Level 2 completion if user doesn't start Level 3`
+3. Click **"Create Journey"**
+
+### Step 9: Configure Journey Trigger
+
+You'll now see the Journey canvas with a **"Start"** node.
+
+1. Click on the **"Start"** node
+2. On the right panel, you'll see "Entry Trigger"
+3. Click **"Add Trigger"**
+
+**Configure Trigger:**
+- **Trigger Type**: Select **"Tag Change"**
+- **Tag Key**: Enter `level_2_completed`
+- **Condition**: Select **"equals"**
+- **Tag Value**: Enter `true`
+- **Re-entry**: Toggle ON (allows testing multiple times)
+
+4. Click **"Save"** or click outside the panel
+
+### Step 10: Add Time Delay
+
+1. On the canvas, click the **"+" button** below the Start node
+2. Select **"Time Delay"**
+3. Configure the delay:
+   - **Delay Duration**: `2` minutes
+   - **Units**: Minutes
+4. The delay node will appear on the canvas
+
+### Step 11: Add Condition (Cancel Logic)
+
+This is the crucial step to prevent the push if Level 3 is started.
+
+1. Click the **"+" button** below the Time Delay node
+2. Select **"Condition"**
+3. Configure the condition:
+   - **Condition Type**: **"User Tag"**
+   - **Tag Key**: `level_3_started`
+   - **Operator**: **"equals"**
+   - **Value**: `false`
+
+This creates a YES/NO branch.
+
+### Step 12: Add Push Notification to "YES" Branch
+
+1. Click the **"+" button** on the **"YES"** path (this means level_3_started = false)
+2. Select **"Push Notification"**
+3. You'll see the message editor
+
+**Configure Variant A (Narrative):**
+
+Click **"Edit Message"** and fill in:
+
+**Basic Settings:**
+- **Notification Title**: `Your kingdom awaits...`
+- **Message**: `You've conquered Level 2! The next challenge is calling. Ready to continue your journey?`
+- **Icon**: Upload an image or use emoji `🎮` (optional)
+- **Launch URL**: `https://benkorosparti.github.io`
+
+Click **"Save"** in the message editor.
+
+### Step 13: Add A/B Test Variant
+
+1. In the Push Notification node settings, look for **"Add Variant"** button
+2. Click **"Add Variant"**
+3. Click **"Edit Message"** for Variant B
+
+**Configure Variant B (Reward):**
+
+- **Notification Title**: `Bonus Coins Unlocked! 🪙`
+- **Message**: `Start Level 3 now and claim your 500 bonus coins + exclusive power-up!`
+- **Icon**: Upload an image or use emoji `💰` (optional)
+- **Launch URL**: `https://benkorosparti.github.io`
+
+Click **"Save"**
+
+**A/B Test Settings:**
+- **Split**: 50% / 50% (default)
+- **Winner Metric**: Click-through rate (default is fine)
+
+### Step 14: Handle "NO" Branch (Optional)
+
+The "NO" branch (when level_3_started = true) means the user already started Level 3, so we do nothing.
+
+1. Click the **"+" button** on the **"NO"** path
+2. Select **"End Journey"**
+
+This exits the user from the journey without sending a push.
+
+### Step 15: Review Journey Flow
+
+Your journey should look like this:
+```
+START (Tag: level_2_completed = true)
+   ↓
+TIME DELAY (2 minutes)
+   ↓
+CONDITION (level_3_started = false?)
+   ├─ YES → PUSH NOTIFICATION (Variant A/B)
+   └─ NO  → END JOURNEY
 </body>
 </html>
